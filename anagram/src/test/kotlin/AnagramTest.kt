@@ -10,7 +10,6 @@ class AnagramTest {
         assertEquals(emptySet(), detector.match(listOf("hello", "world", "zombies", "pants")))
     }
 
-    @Ignore
     @Test
     fun detectsTwoAnagrams() {
         val detector = Anagram("master")
@@ -18,14 +17,12 @@ class AnagramTest {
         assertEquals(setOf("maters", "stream"), anagrams)
     }
 
-    @Ignore
     @Test
     fun doesNotDetectAnagramSubsets() {
         val detector = Anagram("good")
         assertEquals(emptySet(), detector.match(listOf("dog", "goody")))
     }
 
-    @Ignore
     @Test
     fun detectsAnagram() {
         val detector = Anagram("listen")
@@ -33,7 +30,6 @@ class AnagramTest {
         assertEquals(setOf("inlets"), anagrams)
     }
 
-    @Ignore
     @Test
     fun detectsThreeAnagrams() {
         val detector = Anagram("allergy")
@@ -41,14 +37,12 @@ class AnagramTest {
         assertEquals(setOf("gallery", "largely", "regally"), anagrams)
     }
 
-    @Ignore
     @Test
     fun doesNotDetectNonAnagramsWithIdenticalChecksums() {
         val detector = Anagram("mass")
         assertEquals(emptySet(), detector.match(listOf("last")))
     }
 
-    @Ignore
     @Test
     fun detectsAnagramsCaseInsensitively() {
         val detector = Anagram("Orchestra")
@@ -56,7 +50,6 @@ class AnagramTest {
         assertEquals(setOf("Carthorse"), anagrams)
     }
 
-    @Ignore
     @Test
     fun detectsAnagramsUsingCaseInsensitiveSubject() {
         val detector = Anagram("Orchestra")
@@ -64,7 +57,6 @@ class AnagramTest {
         assertEquals(setOf("carthorse"), anagrams)
     }
 
-    @Ignore
     @Test
     fun detectsAnagramsUsingCaseInsensitiveCandidates() {
         val detector = Anagram("orchestra")
@@ -72,7 +64,6 @@ class AnagramTest {
         assertEquals(setOf("Carthorse"), anagrams)
     }
 
-    @Ignore
     @Test
     fun doesNotDetectAnAnagramIfTheOriginalWordIsRepeated() {
         val detector = Anagram("go")
@@ -80,7 +71,6 @@ class AnagramTest {
         assertEquals(emptySet(), anagrams)
     }
 
-    @Ignore
     @Test
     fun anagramsMustUseAllLettersExactlyOnce() {
         val detector = Anagram("tapper")
@@ -88,7 +78,6 @@ class AnagramTest {
         assertEquals(emptySet(), anagrams)
     }
 
-    @Ignore
     @Test
     fun doesNotDetectIdenticalUppercasedWordAsAnagram() {
         val detector = Anagram("BANANA")
