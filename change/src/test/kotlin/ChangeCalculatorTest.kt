@@ -11,6 +11,12 @@ class ChangeCalculatorTest {
     var expectedException: ExpectedException = ExpectedException.none()
 
     @Test
+    fun test() {
+        val computedChange = ChangeCalculator(listOf(10)).computeMostEfficientChange(10)
+        assertThat(computedChange).containsExactly(10)
+    }
+
+    @Test
     fun singleCoinChange() {
         val computedChange = ChangeCalculator(listOf(1, 5, 10, 25, 100)).computeMostEfficientChange(25)
         assertThat(computedChange).containsExactly(25)
@@ -41,28 +47,24 @@ class ChangeCalculatorTest {
                 .containsExactly(2, 2, 5, 20, 20, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100)
     }
 
-    @Ignore
     @Test
     fun possibleChangeWithoutUnitCoinsAvailable() {
         val computedChange = ChangeCalculator(listOf(2, 5, 10, 20, 50)).computeMostEfficientChange(21)
         assertThat(computedChange).containsExactly(2, 2, 2, 5, 10)
     }
 
-    @Ignore
     @Test
     fun anotherPossibleChangeWithoutUnitCoinsAvailable() {
         val computedChange = ChangeCalculator(listOf(4, 5)).computeMostEfficientChange(27)
         assertThat(computedChange).containsExactly(4, 4, 4, 5, 5, 5)
     }
 
-    @Ignore
     @Test
     fun noCoinsMake0Change() {
         val computedChange = ChangeCalculator(listOf(1, 5, 10, 21, 25)).computeMostEfficientChange(0)
         assertThat(computedChange).isEmpty()
     }
 
-    @Ignore
     @Test
     fun errorTestingForChangeSmallerThanTheSmallestCoin() {
         val changeCalculator = ChangeCalculator(listOf(5, 10))
@@ -73,7 +75,6 @@ class ChangeCalculatorTest {
         changeCalculator.computeMostEfficientChange(3)
     }
 
-    @Ignore
     @Test
     fun errorIfNoCombinationCanAddUpToTarget() {
         val changeCalculator = ChangeCalculator(listOf(5, 10))
@@ -84,7 +85,6 @@ class ChangeCalculatorTest {
         changeCalculator.computeMostEfficientChange(94)
     }
 
-    @Ignore
     @Test
     fun cannotFindNegativeChangeValues() {
         val changeCalculator = ChangeCalculator(listOf(1, 2, 5))
