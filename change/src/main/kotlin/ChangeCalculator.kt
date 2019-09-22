@@ -5,43 +5,49 @@ class ChangeCalculator(val coins: List<Int>) {
 
     fun computeMostEfficientChange(input: Int): List<Int> {
         require(input >= 0) { "Negative totals are not allowed." }
+        require(isRepresentable(input) ) { "The total $input cannot be represented in the given currency." }
 
-        val states = mutableListOf("0")
-        val changeList3 = recursionCheck(input, states).drop(1)
-        println("pattern3: ${changeList3}")
-        val result = changeList3.filter { it.isNotEmpty() }.maxBy { -it.length }
-        println("result: $result")
-        if (result is String) return result.parseChange().drop(1).sorted()
-        return mutableListOf()
+        val initialStates = mutableListOf("0")
+        val changeList = getChangeList(input, initialStates).drop(1)
+//        println("all pattern: $changeList")
+        val result = changeList.filter { it.isNotEmpty() }.maxBy { -it.length }
+//        println("result: $result")
+        return if (result is String) result.parseChange().drop(1).sorted() else mutableListOf()
     }
-
-    fun recursionCheck(goal: Int, states: MutableList<String>): MutableSet<String> {
-        // copy
-        val resultState = states.map { it }.toMutableSet()
-        if (this.count < 0) return resultState
+    private fun isRepresentable(input: Int): Boolean {
+        var isDivisible = false
+        coins.reduce { acc, i ->
+            if (input % acc == 0) isDivisible = true
+            acc + i
+        }
+        if (input % coins.sum() == 0) isDivisible = true
+        return isDivisible
+    }
+    private fun getChangeList(goal: Int, states: MutableList<String>): MutableSet<String> {
+        // copy states
+        val resultStates = states.map { it }.toMutableSet()
+        // check count of calculation
+        if (this.count < 0) return resultStates
         this.count--
-        // stateの数だけ実行
-        // add はそれ以下またはそれ以上行う可能性あり
+
+        // run each state (state length is not count of addition)
         states.forEach { state ->
-            // coin候補の数だけ分岐する
             val sum = state.parseChange().sum()
-//            println("sum: $sum")
+            // branch by the number of coins
             for (coin in sortedCoins) {
-                // ぴったりなら
                 if (sum + coin == goal) {
-                    resultState.add("$state/$coin")
-//                } else if (sum + coin > goal) { // 超えていたら何もしない
-                } else if (sum + coin < goal) { // 追加してもいけたら
-                    // コインを追加して再帰
-                    val tempList = mutableListOf<String>("$state/$coin")
-                    recursionCheck(goal, tempList).forEach {
-                        if (it.parseChange().sum() == goal) resultState.add(it)
+                    // add candidate of change list
+                    resultStates.add("$state/$coin")
+                } else if (sum + coin < goal) { // can afford to add
+                    // run recursive
+                    val tempList = mutableListOf("$state/$coin")
+                    getChangeList(goal, tempList).forEach {
+                        if (it.parseChange().sum() == goal) resultStates.add(it)
                     }
                 }
             }
         }
-        return resultState
+        return resultStates
     }
-
-    fun String.parseChange(): List<Int> = if (this.isNotEmpty()) this.split("/").map { it.toInt() } else listOf()
 }
+fun String.parseChange(): List<Int> = if (this.isNotEmpty()) this.split("/").map { it.toInt() } else listOf()

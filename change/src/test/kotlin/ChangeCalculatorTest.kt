@@ -11,12 +11,6 @@ class ChangeCalculatorTest {
     var expectedException: ExpectedException = ExpectedException.none()
 
     @Test
-    fun test() {
-        val computedChange = ChangeCalculator(listOf(10)).computeMostEfficientChange(10)
-        assertThat(computedChange).containsExactly(10)
-    }
-
-    @Test
     fun singleCoinChange() {
         val computedChange = ChangeCalculator(listOf(1, 5, 10, 25, 100)).computeMostEfficientChange(25)
         assertThat(computedChange).containsExactly(25)
