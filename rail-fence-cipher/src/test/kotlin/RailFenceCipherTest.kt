@@ -13,7 +13,6 @@ class RailFenceCipherTest {
         )
     }
 
-    @Ignore
     @Test
     fun encodeWithThreeRails() {
         val railFenceCipher = RailFenceCipher(3)
@@ -23,7 +22,6 @@ class RailFenceCipherTest {
         )
     }
 
-    @Ignore
     @Test
     fun encodeWithEndingInTheMiddle() {
         val railFenceCipher = RailFenceCipher(4)
