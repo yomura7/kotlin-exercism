@@ -16,15 +16,14 @@ class BaseConverter(private val base: Int, private val digits: IntArray) {
         val decimalValue = digits.reversed().reduceIndexed { index, acc, digit ->
             acc + (digit * base.toDouble().pow(index).toInt())
         }
-
-        var result = mutableListOf<Int>()
-        var remaining = decimalValue
-        while(remaining > 0) {
-            result.add(remaining.rem(newBase))
-            remaining /= newBase
+        val newDigits = mutableListOf<Int>()
+        var rest = decimalValue
+        while(rest > 0) {
+            newDigits.add(rest.rem(newBase))
+            rest /= newBase
         }
-        if (result.size == 0) result.add(0)
-        return result.reversed().toIntArray()
+        if (newDigits.size == 0) newDigits.add(0)
+        return newDigits.reversed().toIntArray()
     }
 
 }
