@@ -14,7 +14,16 @@ object Dominoes {
     fun formChain(vararg inputDomino: Domino) {
         throw ChainNotFoundException("Input can't be chained.")
     }
-    fun generateChain(inputDominoes: MutableList<Domino>, forward: Boolean): List<Domino> {
+    fun formChain(inputDominoes: List<Domino>): List<Domino> {
+        generateChain(inputDominoes.toMutableList(), true).let {
+            if (it.size == inputDominoes.size) { return it }
+        }
+        generateChain(inputDominoes.toMutableList(), false).let {
+            if (it.size == inputDominoes.size) { return it }
+        }
+        return inputDominoes
+    }
+    private fun generateChain(inputDominoes: MutableList<Domino>, forward: Boolean): List<Domino> {
         val outputDominoes = mutableListOf<Domino>()
         val markedIndex = mutableListOf<Int>()
 
@@ -42,14 +51,5 @@ object Dominoes {
             }
         }
         return outputDominoes
-    }
-    fun formChain(inputDominoes: List<Domino>): List<Domino> {
-        generateChain(inputDominoes.toMutableList(), true).let {
-            if (it.size == inputDominoes.size) { return it }
-        }
-        generateChain(inputDominoes.toMutableList(), false).let {
-            if (it.size == inputDominoes.size) { return it }
-        }
-        return inputDominoes
     }
 }
